@@ -65,16 +65,11 @@
                         <em class="bi bi-eye-slash" id="togglePassword"></em>
                     </div>
                 </div> <!--begin::Row-->
-                <div class="row">
-                    <div class="col-8">
-                        <div class="form-check"> <input class="form-check-input" name="remember" id="remember" type="checkbox" value="1"> <label class="form-check-label" for="remember">
-                                {{ trans('form.remember_me') }}
-                            </label> </div>
-                    </div> <!-- /.col -->
-                    <div class="col-4">
-                        <div class="d-grid gap-2"> <button type="submit" class="btn btn-primary">{{ trans('firefly.sign_in') }}</button> </div>
-                    </div> <!-- /.col -->
-                </div> <!--end::Row-->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" name="remember" id="remember" type="checkbox" value="1">
+                    <label class="form-check-label" for="remember">{{ trans('form.remember_me') }}</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">{{ trans('firefly.sign_in') }}</button>
             </form>
             @if($allowReset)
             <p class="mb-1 mt-3"> <a href="{{ route('password.reset.request') }}">{{ trans('firefly.forgot_my_password') }}</a> </p>

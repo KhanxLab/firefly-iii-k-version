@@ -2380,6 +2380,11 @@ return [
     'automation'                                          => 'Automation',
     'others'                                              => 'Others',
     'classification'                                      => 'Classification',
+    'menu_group_daily'                                    => 'Day to day',
+    'menu_group_planning'                                 => 'Planning',
+    'menu_group_settings'                                 => 'Settings and tools',
+    'toggle_navigation'                                   => 'Show or hide the menu',
+    'more_create_options'                                 => 'More things to create',
     'store_transaction'                                   => 'Store transaction',
 
     // reports:

@@ -1,0 +1,1294 @@
+/*!
+ * _theme.scss
+ * Component layer for the "Propuesta A — Claro y limpio" design.
+ *
+ * This file is part of Firefly III (https://github.com/firefly-iii).
+ * Licensed under the GNU Affero General Public License v3 or later.
+ */
+
+// Design tokens. Bootstrap variables in app.scss set the base colors;
+// these extra tokens cover what Bootstrap does not have a variable for.
+:root,
+[data-bs-theme="light"] {
+    --ff-accent: #1e6581;
+    --ff-accent-hover: #134257;
+    --ff-accent-soft: #eaf2f5;
+    --ff-page: #f6f7f9;
+    --ff-surface: #ffffff;
+    --ff-border: #e4e7ec;
+    --ff-divider: #eef0f3;
+    --ff-text: #0f172a;
+    --ff-text-2: #344054;
+    --ff-muted: #5b6474;
+    --ff-hover: #f2f4f7;
+    --ff-chip: #f1f3f6;
+    --ff-positive: #15803d;
+    --ff-negative: #b42318;
+    --ff-shadow-pop: 0 12px 32px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(15, 23, 42, 0.06);
+    --ff-focus: 0 0 0 3px rgba(30, 101, 129, 0.25);
+}
+
+[data-bs-theme="dark"] {
+    --ff-accent: #6cb4d0;
+    --ff-accent-hover: #9fd0e3;
+    --ff-accent-soft: rgba(108, 180, 208, 0.14);
+    --ff-page: #0f1419;
+    --ff-surface: #161b22;
+    --ff-border: #262c36;
+    --ff-divider: #1f2630;
+    --ff-text: #e6eaf0;
+    --ff-text-2: #c3cad4;
+    --ff-muted: #9aa4b2;
+    --ff-hover: #1f2630;
+    --ff-chip: #1f2630;
+    --ff-positive: #4ade80;
+    --ff-negative: #f97066;
+    --ff-shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.5);
+    --ff-focus: 0 0 0 3px rgba(108, 180, 208, 0.35);
+}
+
+// ---------------------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------------------
+body {
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--ff-page) !important;
+    color: var(--ff-text);
+}
+
+.app-wrapper,
+.app-main {
+    background-color: var(--ff-page);
+}
+
+// Amounts line up in columns everywhere.
+.money-positive,
+.money-negative,
+.money-transfer,
+.money-neutral,
+.table,
+.small-box h4,
+.ff-kpi-value,
+.progress {
+    font-variant-numeric: tabular-nums;
+}
+
+.money-positive,
+.money-negative,
+.money-transfer {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+a {
+    text-underline-offset: 2px;
+}
+
+:focus-visible {
+    outline: none;
+    box-shadow: var(--ff-focus);
+}
+
+.text-muted {
+    color: var(--ff-muted) !important;
+}
+
+hr {
+    border-color: var(--ff-border);
+    opacity: 1;
+}
+
+// ---------------------------------------------------------------------------
+// Header
+// ---------------------------------------------------------------------------
+.app-header {
+    background-color: var(--ff-surface) !important;
+    border-bottom: 1px solid var(--ff-border);
+    min-height: 64px;
+    box-shadow: none;
+
+    .container-fluid {
+        min-height: 64px;
+        gap: 0.5rem;
+    }
+
+    .navbar-nav {
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .nav-link {
+        color: var(--ff-text-2);
+        border-radius: 0.625rem;
+        min-height: 40px;
+        min-width: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.375rem 0.625rem;
+        font-weight: 500;
+
+        &:hover,
+        &:focus-visible {
+            background-color: var(--ff-hover);
+            color: var(--ff-text);
+        }
+
+        .bi {
+            font-size: 1.0625rem;
+        }
+    }
+
+    // Date range becomes a bordered pill, like in the mock-up.
+    #date-range {
+        border: 1px solid var(--ff-border);
+        padding: 0.375rem 0.875rem;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+
+    @media (max-width: 1399.98px) {
+        #date-range .daterange-holder {
+            display: none !important;
+        }
+    }
+}
+
+// Primary "+ New transaction" button in the header.
+.ff-header-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 40px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.625rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+// Search field in the header.
+.ff-header-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .bi {
+        position: absolute;
+        left: 0.75rem;
+        color: var(--ff-muted);
+        pointer-events: none;
+    }
+
+    input {
+        min-width: 240px;
+        height: 40px;
+        padding-left: 2.25rem;
+        border-radius: 0.625rem;
+        background-color: var(--ff-surface);
+        font-size: 0.875rem;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Sidebar
+// ---------------------------------------------------------------------------
+.app-sidebar {
+    background-color: var(--ff-surface) !important;
+    border-right: 1px solid var(--ff-border);
+    box-shadow: none !important;
+
+    .sidebar-brand {
+        border-bottom: 0;
+        height: 64px;
+        justify-content: flex-start;
+        padding: 0 1.25rem;
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0;
+            border: 0;
+            color: var(--ff-text);
+        }
+
+        .brand-image {
+            width: 32px;
+            height: 32px;
+            max-height: 32px;
+            margin: 0;
+            opacity: 1 !important;
+            box-shadow: none;
+        }
+
+        .brand-text {
+            font-weight: 700 !important;
+            font-size: 1.0625rem;
+            letter-spacing: -0.01em;
+        }
+    }
+
+    .sidebar-wrapper {
+        padding: 0.5rem 0.75rem 1rem;
+    }
+
+    .sidebar-menu {
+        gap: 2px;
+
+        .nav-header {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: var(--ff-muted);
+            padding: 1.25rem 0.75rem 0.375rem;
+            background: transparent;
+        }
+
+        .nav-item:first-child.nav-header {
+            padding-top: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            min-height: 40px;
+            padding: 0.5rem 0.75rem;
+            margin: 0;
+            border-radius: 0.5rem;
+            color: var(--ff-text-2);
+            font-weight: 500;
+            font-size: 0.9375rem;
+
+            p {
+                display: flex;
+                flex: 1;
+                align-items: center;
+                margin: 0;
+            }
+
+            .nav-icon {
+                color: var(--ff-muted);
+                font-size: 1.0625rem;
+                width: 1.5rem;
+                margin-right: 0.5rem;
+            }
+
+            .nav-arrow {
+                margin-left: auto;
+                font-size: 0.75rem;
+                color: var(--ff-muted);
+            }
+
+            &:hover {
+                background-color: var(--ff-hover);
+                color: var(--ff-text);
+            }
+
+            &.active,
+            &.active:hover {
+                background-color: var(--ff-accent-soft) !important;
+                color: var(--ff-accent) !important;
+                font-weight: 600;
+
+                .nav-icon {
+                    color: var(--ff-accent);
+                }
+            }
+        }
+
+        .menu-open > .nav-link {
+            background-color: transparent;
+            color: var(--ff-text);
+        }
+
+        .nav-treeview {
+            margin: 2px 0 4px;
+
+            .nav-link {
+                padding-left: 2.75rem;
+                min-height: 36px;
+                font-size: 0.875rem;
+
+                .nav-icon {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .sub-nav-item {
+        padding-left: 0;
+    }
+
+    // User box at the bottom of the sidebar.
+    .ff-sidebar-user {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        margin-top: 1rem;
+        padding: 0.75rem;
+        border-radius: 0.625rem;
+        background-color: var(--ff-page);
+        color: var(--ff-text);
+
+        .ff-avatar {
+            flex: 0 0 32px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--ff-accent-soft);
+            color: var(--ff-accent);
+            font-weight: 700;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+        }
+
+        .ff-sidebar-user-text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            font-size: 0.8125rem;
+
+            strong {
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            a {
+                color: var(--ff-muted);
+            }
+        }
+    }
+}
+
+// Collapsed (mini) sidebar keeps working.
+.sidebar-mini.sidebar-collapse .app-sidebar:not(:hover) {
+    .nav-header,
+    .ff-sidebar-user-text {
+        display: none;
+    }
+
+    .ff-sidebar-user {
+        padding: 0.5rem;
+        justify-content: center;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Page header (title + breadcrumbs)
+// ---------------------------------------------------------------------------
+.app-content-header {
+    padding: 1.75rem 0.5rem 0.75rem;
+
+    h3 {
+        font-size: 1.625rem;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        line-height: 1.25;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.25rem 0.625rem;
+
+        > .bi {
+            display: none;
+        }
+
+        small {
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--ff-muted) !important;
+            letter-spacing: 0;
+
+            .bi {
+                display: none;
+            }
+        }
+    }
+
+    .breadcrumb {
+        font-size: 0.8125rem;
+        margin-top: 0.5rem;
+
+        .breadcrumb-item,
+        .breadcrumb-item.active {
+            color: var(--ff-muted);
+        }
+
+        a {
+            color: var(--ff-text-2);
+        }
+    }
+}
+
+.app-content {
+    padding: 0.5rem 0.5rem 2.5rem;
+}
+
+// ---------------------------------------------------------------------------
+// Cards
+// ---------------------------------------------------------------------------
+.card {
+    background-color: var(--ff-surface);
+    border: 1px solid var(--ff-border);
+    border-radius: 0.875rem;
+    box-shadow: none !important;
+    margin-bottom: 1rem !important;
+
+    &.card-outline {
+        border-top: 1px solid var(--ff-border);
+    }
+
+    > .card-header {
+        background: transparent;
+        border-bottom: 1px solid var(--ff-divider);
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 0.5rem 0.75rem;
+        min-height: 56px;
+
+        > .card-title {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        &::after {
+            display: none;
+        }
+
+        .card-title,
+        h3,
+        h4 {
+            font-size: 1.0625rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--ff-text);
+            float: none;
+
+            a {
+                color: inherit;
+            }
+
+            a:hover {
+                color: var(--ff-accent);
+            }
+        }
+
+        .card-tools {
+            margin-left: auto;
+            float: none;
+        }
+    }
+
+    > .card-footer {
+        background: transparent;
+        border-top: 1px solid var(--ff-divider);
+        padding: 0.75rem 1.25rem;
+    }
+
+    // "Go to …" links in footers read as quiet links, not as big buttons.
+    > .card-footer.text-end .btn-primary.btn-sm {
+        background: transparent;
+        border-color: transparent;
+        color: var(--ff-accent);
+        padding-right: 0;
+
+        &:hover {
+            color: var(--ff-accent-hover);
+            text-decoration: underline;
+        }
+    }
+
+    > .card-body.p-0 > .table,
+    > .card-body.p-0 > .table-responsive > .table,
+    > .table {
+        margin-bottom: 0;
+    }
+
+    // Wide tables scroll inside their card instead of spilling out of it.
+    // Dropdowns use fixed positioning (see boot/bootstrap.js), so menus are not cut off.
+    > .card-body.p-0,
+    > .card-body:has(> .table),
+    > .card-body:has(> form > .table) {
+        overflow-x: auto;
+    }
+
+    > .card-header > .row {
+        flex: 1 1 auto;
+        align-items: center;
+    }
+
+    > .card-header .btn {
+        white-space: nowrap;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// KPI boxes (small-box / info-box): white cards with big numbers
+// ---------------------------------------------------------------------------
+.small-box {
+    background-color: var(--ff-surface) !important;
+    color: var(--ff-text) !important;
+    border: 1px solid var(--ff-border);
+    border-radius: 0.875rem;
+    box-shadow: none !important;
+    overflow: hidden;
+
+    > .inner {
+        padding: 1.25rem 4.25rem 0.75rem 1.25rem;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 0.375rem;
+
+        h4 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0;
+            color: var(--ff-text);
+        }
+
+        p {
+            margin: 0;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--ff-muted);
+        }
+
+        a {
+            color: var(--ff-muted);
+        }
+    }
+
+    .small-box-icon {
+        top: 1.125rem;
+        right: 1.25rem;
+        height: auto;
+        font-size: 1.25rem;
+        color: var(--ff-accent);
+        opacity: 1;
+
+        .bi {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.625rem;
+            background-color: var(--ff-accent-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    &:hover .small-box-icon {
+        transform: none;
+        font-size: 1.25rem;
+    }
+
+    .small-box-footer {
+        background: transparent !important;
+        color: var(--ff-muted) !important;
+        text-align: left;
+        padding: 0 1.25rem 1rem;
+        font-size: 0.8125rem;
+    }
+}
+
+.info-box {
+    background-color: var(--ff-surface);
+    border: 1px solid var(--ff-border);
+    border-radius: 0.875rem;
+    box-shadow: none;
+
+    .info-box-icon {
+        border-radius: 0.625rem;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Tables
+// ---------------------------------------------------------------------------
+.table {
+    font-size: 0.875rem;
+    --bs-table-bg: transparent;
+    --bs-table-border-color: var(--ff-divider);
+    --bs-table-hover-bg: var(--ff-hover);
+    --bs-table-striped-bg: var(--ff-page);
+    color: var(--ff-text);
+
+    > thead > tr > th,
+    > thead > tr > td {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ff-muted);
+        border-bottom-width: 1px;
+        border-bottom-color: var(--ff-border);
+        vertical-align: bottom;
+    }
+
+    > tbody > tr > td,
+    > tbody > tr > th {
+        vertical-align: middle;
+    }
+
+    > tbody > tr:last-child > td {
+        border-bottom-width: 0;
+    }
+}
+
+.table-responsive {
+    border-radius: inherit;
+}
+
+// ---------------------------------------------------------------------------
+// Buttons
+// ---------------------------------------------------------------------------
+.btn {
+    border-radius: 0.625rem;
+    box-shadow: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+
+    &.btn-sm {
+        border-radius: 0.5rem;
+        font-size: 0.8125rem;
+    }
+
+    &.dropdown-toggle {
+        display: inline-flex;
+    }
+}
+
+.btn-group > .btn {
+    display: inline-flex;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--ff-accent);
+    --bs-btn-border-color: var(--ff-accent);
+    --bs-btn-hover-bg: var(--ff-accent-hover);
+    --bs-btn-hover-border-color: var(--ff-accent-hover);
+    --bs-btn-active-bg: var(--ff-accent-hover);
+    --bs-btn-active-border-color: var(--ff-accent-hover);
+}
+
+// One accent for all positive actions ("Submit", "Store", "Create"),
+// like in the design. Danger stays red.
+.btn-success {
+    --bs-btn-bg: var(--ff-accent);
+    --bs-btn-border-color: var(--ff-accent);
+    --bs-btn-hover-bg: var(--ff-accent-hover);
+    --bs-btn-hover-border-color: var(--ff-accent-hover);
+    --bs-btn-active-bg: var(--ff-accent-hover);
+    --bs-btn-active-border-color: var(--ff-accent-hover);
+}
+
+.btn-outline-success,
+.btn-outline-primary {
+    --bs-btn-color: var(--ff-accent);
+    --bs-btn-bg: var(--ff-surface);
+    --bs-btn-border-color: #d0d5dd;
+    --bs-btn-hover-color: var(--ff-accent-hover);
+    --bs-btn-hover-bg: var(--ff-accent-soft);
+    --bs-btn-hover-border-color: var(--ff-accent);
+    --bs-btn-active-color: var(--ff-accent-hover);
+    --bs-btn-active-bg: var(--ff-accent-soft);
+    --bs-btn-active-border-color: var(--ff-accent);
+}
+
+[data-bs-theme="dark"] .btn-success,
+[data-bs-theme="dark"] .btn-primary {
+    --bs-btn-color: #0f1419;
+    --bs-btn-hover-color: #0f1419;
+    --bs-btn-active-color: #0f1419;
+}
+
+// Some templates force white text with .text-white; keep contrast on the light dark-mode accent.
+[data-bs-theme="dark"] .btn-success.text-white,
+[data-bs-theme="dark"] .btn-primary.text-white {
+    color: #0f1419 !important;
+}
+
+.btn-default,
+.btn-secondary,
+.btn-outline-secondary,
+.btn-light {
+    --bs-btn-bg: var(--ff-surface);
+    --bs-btn-color: var(--ff-text-2);
+    --bs-btn-border-color: #d0d5dd;
+    --bs-btn-hover-bg: var(--ff-hover);
+    --bs-btn-hover-color: var(--ff-text);
+    --bs-btn-hover-border-color: #d0d5dd;
+    --bs-btn-active-bg: var(--ff-hover);
+    --bs-btn-active-color: var(--ff-text);
+    --bs-btn-active-border-color: #d0d5dd;
+}
+
+[data-bs-theme="dark"] {
+    .btn-default,
+    .btn-secondary,
+    .btn-outline-secondary,
+    .btn-light {
+        --bs-btn-border-color: var(--ff-border);
+        --bs-btn-hover-border-color: #3a4250;
+        --bs-btn-active-border-color: #3a4250;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Forms
+// ---------------------------------------------------------------------------
+.form-control,
+.form-select {
+    border-radius: 0.625rem;
+    min-height: 40px;
+    box-shadow: none !important;
+
+    &:focus {
+        box-shadow: var(--ff-focus) !important;
+    }
+}
+
+.form-control-sm,
+.form-select-sm {
+    min-height: 32px;
+    border-radius: 0.5rem;
+}
+
+.input-group-text {
+    background-color: var(--ff-page);
+    color: var(--ff-muted);
+    border-color: #d0d5dd;
+}
+
+[data-bs-theme="dark"] .input-group-text,
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    border-color: #323a46;
+}
+
+.form-label,
+.col-form-label {
+    font-weight: 500;
+    color: var(--ff-text-2);
+}
+
+.form-text {
+    color: var(--ff-muted);
+}
+
+.form-check-input:checked {
+    background-color: var(--ff-accent);
+    border-color: var(--ff-accent);
+}
+
+// ---------------------------------------------------------------------------
+// Navigation pieces
+// ---------------------------------------------------------------------------
+.nav-tabs {
+    border-bottom: 1px solid var(--ff-border);
+    gap: 0.25rem;
+
+    .nav-link {
+        border: 0;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        color: var(--ff-muted);
+        font-weight: 500;
+        padding: 0.625rem 0.875rem;
+
+        &:hover {
+            color: var(--ff-text);
+            border-bottom-color: var(--ff-border);
+        }
+
+        &.active {
+            background: transparent;
+            color: var(--ff-accent);
+            border-bottom-color: var(--ff-accent);
+            font-weight: 600;
+        }
+    }
+}
+
+.nav-pills .nav-link {
+    border-radius: 0.5rem;
+    color: var(--ff-text-2);
+
+    &.active {
+        background-color: var(--ff-accent-soft);
+        color: var(--ff-accent);
+        font-weight: 600;
+    }
+}
+
+.pagination {
+    gap: 0.25rem;
+
+    .page-link {
+        border-radius: 0.5rem !important;
+        border-color: var(--ff-border);
+        color: var(--ff-text-2);
+        min-width: 36px;
+        text-align: center;
+    }
+
+    .page-item.active .page-link {
+        background-color: var(--ff-accent);
+        border-color: var(--ff-accent);
+        color: #fff;
+    }
+}
+
+.dropdown-menu {
+    border: 1px solid var(--ff-border);
+    box-shadow: var(--ff-shadow-pop);
+    padding: 0.375rem;
+
+    .dropdown-item {
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--ff-text-2);
+
+        &:hover,
+        &:focus {
+            background-color: var(--ff-hover);
+            color: var(--ff-text);
+        }
+
+        &.active,
+        &:active {
+            background-color: var(--ff-accent-soft);
+            color: var(--ff-accent);
+        }
+    }
+
+    .dropdown-item-title {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    .dropdown-divider {
+        margin: 0.25rem 0;
+        border-color: var(--ff-divider);
+    }
+
+    .dropdown-header {
+        font-size: 0.75rem;
+        color: var(--ff-muted);
+    }
+}
+
+// Create menu: no dividers between every entry.
+#create-menu + .dropdown-menu .dropdown-divider {
+    display: none;
+}
+
+.modal-content {
+    border: 1px solid var(--ff-border);
+    box-shadow: var(--ff-shadow-pop);
+
+    .modal-header {
+        border-bottom-color: var(--ff-divider);
+        padding: 1.25rem 1.5rem;
+    }
+
+    .modal-title {
+        font-weight: 600;
+        font-size: 1.125rem;
+    }
+
+    .modal-body {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .modal-footer {
+        border-top-color: var(--ff-divider);
+        padding: 0.875rem 1.5rem;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Feedback: alerts, badges, progress, list groups
+// ---------------------------------------------------------------------------
+.alert {
+    border-width: 1px;
+    font-size: 0.9375rem;
+}
+
+.badge {
+    padding: 0.3125rem 0.625rem;
+    font-size: 0.75rem;
+}
+
+.badge.text-bg-secondary,
+.badge.bg-secondary {
+    background-color: var(--ff-chip) !important;
+    color: var(--ff-text-2) !important;
+}
+
+.progress {
+    background-color: var(--ff-divider);
+    overflow: hidden;
+    height: 0.5rem;
+    font-size: 0.6875rem;
+
+    .progress-bar {
+        background-color: var(--ff-accent);
+        border-radius: 999px;
+        background-image: none;
+    }
+
+    .progress-bar.bg-danger,
+    .progress-bar.text-bg-danger {
+        background-color: var(--ff-negative) !important;
+    }
+
+    .progress-bar.bg-success,
+    .progress-bar.text-bg-success {
+        background-color: var(--ff-positive) !important;
+    }
+
+    .progress-bar.bg-warning,
+    .progress-bar.text-bg-warning {
+        background-color: #e8a33d !important;
+    }
+}
+
+// Progress bars that show text inside need to be taller.
+.progress:has(.progress-bar span),
+.progress:has(> span) {
+    height: 1.25rem;
+}
+
+.list-group {
+    --bs-list-group-border-color: var(--ff-divider);
+
+    .list-group-item {
+        background-color: transparent;
+    }
+
+    .list-group-item.active {
+        background-color: var(--ff-accent-soft);
+        color: var(--ff-accent);
+        border-color: var(--ff-divider);
+    }
+}
+
+.callout {
+    border-radius: 0.75rem;
+    box-shadow: none;
+    border: 1px solid var(--ff-border);
+    border-left-width: 1px;
+    background-color: var(--ff-surface);
+}
+
+// ---------------------------------------------------------------------------
+// Footer
+// ---------------------------------------------------------------------------
+.app-footer {
+    background-color: transparent;
+    border-top: 1px solid var(--ff-border);
+    color: var(--ff-muted);
+    font-size: 0.8125rem;
+    padding: 1rem 1.5rem;
+
+    a {
+        color: var(--ff-text-2);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Guided tour (Shepherd)
+// ---------------------------------------------------------------------------
+.shepherd-element {
+    border-radius: 0.875rem;
+    box-shadow: var(--ff-shadow-pop);
+    font-family: inherit;
+}
+
+.shepherd-text {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+}
+
+.shepherd-button {
+    background: var(--ff-accent);
+    border-radius: 0.625rem;
+    font-weight: 600;
+
+    &:not(:disabled):hover {
+        background: var(--ff-accent-hover);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Dashboard (index) building blocks
+// ---------------------------------------------------------------------------
+.ff-section-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.ff-card-link {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-left: auto;
+    text-align: right;
+    max-width: 50%;
+    line-height: 1.3;
+}
+
+.ff-mini-account {
+    .table > tbody > tr > td {
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+    }
+}
+
+.ff-piggy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+
+    + .ff-piggy {
+        margin-top: 1rem;
+    }
+
+    .ff-piggy-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+
+        a {
+            font-weight: 500;
+            color: var(--ff-text);
+        }
+
+        span {
+            color: var(--ff-muted);
+            font-variant-numeric: tabular-nums;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Sign in, register, password reset, MFA
+// ---------------------------------------------------------------------------
+.ff-auth-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--ff-text) !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+
+    img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+}
+
+.login-page,
+.register-page {
+    background-color: var(--ff-page) !important;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+
+    .login-box,
+    .register-box {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .login-logo,
+    .register-logo {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .card {
+        border-radius: 1rem;
+    }
+
+    .login-card-body,
+    .register-card-body {
+        padding: 2rem;
+        border-radius: 1rem;
+        background-color: var(--ff-surface);
+        color: var(--ff-text);
+    }
+
+    .login-box-msg,
+    .register-box-msg {
+        text-align: left;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        padding: 0 0 1.25rem;
+        margin: 0;
+    }
+
+    .input-group {
+        margin-bottom: 0.875rem !important;
+
+        .form-control {
+            min-height: 44px;
+        }
+    }
+
+    .btn-primary {
+        min-height: 44px;
+    }
+
+    #togglePassword {
+        cursor: pointer;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Error and status pages (layout.v3.blank)
+// ---------------------------------------------------------------------------
+.ff-status-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background-color: var(--ff-page);
+}
+
+.ff-status-card {
+    width: 100%;
+    max-width: 640px;
+    background-color: var(--ff-surface);
+    border: 1px solid var(--ff-border);
+    border-radius: 1rem;
+    padding: 2.5rem;
+
+    .ff-status-code {
+        margin: 2rem 0 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: var(--ff-negative);
+    }
+
+    h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        margin: 0 0 0.375rem;
+    }
+
+    h2 {
+        font-size: 1.0625rem;
+        font-weight: 500;
+        color: var(--ff-muted);
+        margin: 0 0 1.5rem;
+    }
+
+    .ff-status-body {
+        color: var(--ff-text-2);
+        line-height: 1.6;
+    }
+}
+
+// Install, flush and debug pages share a simple centered layout.
+body.bg-body-tertiary > main.min-vh-100 {
+    background-color: var(--ff-page);
+
+    h1 {
+        font-weight: 700;
+        letter-spacing: -0.015em;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Small screens
+// ---------------------------------------------------------------------------
+@media (max-width: 767.98px) {
+    .app-content-header {
+        padding: 1.25rem 0.25rem 0.5rem;
+
+        h3 {
+            font-size: 1.375rem;
+        }
+
+        .breadcrumb {
+            display: none;
+        }
+    }
+
+    .app-content {
+        padding: 0.25rem 0.25rem 2rem;
+    }
+
+    .ff-header-search {
+        display: none !important;
+    }
+
+    .small-box > .inner h4 {
+        font-size: 1.5rem;
+    }
+
+    // KPI labels are hidden on phones by the markup; without them the numbers mean nothing.
+    .small-box > .inner > p.d-sm-block {
+        display: block !important;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Period summaries above lists: one row of month cards that scrolls sideways
+// ---------------------------------------------------------------------------
+.ff-periods {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    margin-bottom: 1rem;
+    scroll-snap-type: x proximity;
+
+    > .card {
+        flex: 0 0 232px;
+        margin-bottom: 0 !important;
+        scroll-snap-align: start;
+
+        > .card-header {
+            min-height: 0;
+            padding-top: 0.75rem;
+            padding-bottom: 0.625rem;
+
+            .card-title {
+                font-size: 0.9375rem;
+            }
+        }
+
+        .table {
+            font-size: 0.8125rem;
+        }
+    }
+}

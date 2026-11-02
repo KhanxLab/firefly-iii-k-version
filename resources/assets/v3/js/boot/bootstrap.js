@@ -19,9 +19,7 @@
  */
 
 // JS
-// Supports weights 100-900
-import "@fontsource/roboto/300.css";
-import "bootstrap";
+import { Dropdown } from "bootstrap";
 import "admin-lte";
 import Alpine from "@alpinejs/csp";
 import store from "../store/store.js";
@@ -33,6 +31,9 @@ import { getVariables } from "../store/get-variables.js";
 import { getViewRange } from "../support/get-viewrange.js";
 import { loadTranslations } from "../support/load-translations.js";
 import i18next from "i18next";
+
+// Dropdowns use fixed positioning, so menus inside scrollable tables are never cut off.
+Dropdown.Default.popperConfig = (config) => ({ ...config, strategy: "fixed" });
 
 window.bootstrapped = false;
 window.store = store;

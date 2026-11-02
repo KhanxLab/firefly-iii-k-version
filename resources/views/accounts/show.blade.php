@@ -156,7 +156,7 @@
     </div>
 
     <div class="row">
-        <div class="@if(count($periods) > 0)col-lg-10 col-md-8 col-sm-12 @else col-lg-12 col-md-12 col-sm-12 @endif ">
+        <div class="@if(count($periods) > 0)col-12 col-sm-12 @else col-lg-12 col-md-12 col-sm-12 @endif ">
             <div class="card mb-2">
                 <div class="card-header">
                     <h3 class="card-title">{{ __('firefly.transactions') }}
@@ -196,8 +196,8 @@
             </div>
         </div>
         @if(count($periods) > 0)
-            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                <x-lists.periods :periods="$periods" />
+            <div class="col-12 order-first">
+                <div class="ff-periods"><x-lists.periods :periods="$periods" /></div>
             </div>
         @endif
     </div>
@@ -225,10 +225,10 @@
             var expenseCategoryUrl = '{{ route('chart.account.expense-category', [$account->id, $start->format('Ymd'), $end->format('Ymd')]) }}';
             var expenseBudgetUrl = '{{ route('chart.account.expense-budget', [$account->id, $start->format('Ymd'), $end->format('Ymd')]) }}';
             var drawVerticalLine = '';
-            var lineColor = 'red';
+            var lineColor = '#b54708';
             var lineTextColor = '#000';
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                lineColor = '#a00';
+                lineColor = '#e8a33d';
                 lineTextColor = '#bec5cb';
             }
             {{-- render vertical line with text "today" --}}

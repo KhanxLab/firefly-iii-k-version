@@ -26,6 +26,16 @@ import annotationPlugin from "chartjs-plugin-annotation";
 
 Chart.register(annotationPlugin);
 
+// Typography and grid colors that match the application theme.
+const isDarkTheme = "dark" === document.documentElement.getAttribute("data-bs-theme");
+Chart.defaults.font.family = '"Inter Variable", Inter, system-ui, sans-serif';
+Chart.defaults.color = isDarkTheme ? "#9aa4b2" : "#5b6474";
+Chart.defaults.borderColor = isDarkTheme ? "rgba(255, 255, 255, 0.06)" : "#eef0f3";
+Chart.defaults.elements.point.radius = 0;
+Chart.defaults.elements.point.hoverRadius = 4;
+Chart.defaults.elements.line.borderWidth = 2;
+Chart.defaults.elements.bar.borderRadius = 4;
+
 let defaultChartOptions = {
     elements: {
         line: {
@@ -459,7 +469,7 @@ function drawMultiCurrencyLineChart(url, holder, anonymous, drawTodayMarker, col
                             xMin: markDate,
                             xMax: markDate,
                             display: true,
-                            borderColor: "rgb(255, 0, 0)",
+                            borderColor: "rgb(181, 71, 8)",
                             borderWidth: 1,
                             label: {
                                 xAdjust: xAdjust,
@@ -554,14 +564,14 @@ function drawSingleCurrencyLineChart(url, holder, anonymous) {
 }
 
 const colors = [
-    [18, 124, 175], // bg-sky, 0
-    [179, 71, 190], // fuchsia, 1
-    [18, 130, 125], // bg-teal, 2
-    [165, 103, 16], // bg-amber, 3
-    [95, 127, 15], // bg-olive, 4
-    [200, 78, 16], // bg-orange, 5
-    [111, 96, 234], // indigo, 6
-    [205, 56, 141], // bg-pink, 7
+    [30, 101, 129], // accent #1E6581, 0 (budgeted)
+    [79, 70, 229], // indigo, 1
+    [15, 118, 110], // teal, 2 (left)
+    [232, 163, 61], // amber, 3
+    [21, 128, 61], // green, 4
+    [194, 65, 12], // orange, 5 (spent)
+    [100, 116, 139], // slate, 6
+    [194, 65, 107], // rose, 7
 ];
 
 function colorizeAllData(data) {

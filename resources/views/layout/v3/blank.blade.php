@@ -16,8 +16,8 @@
     <base href="{{ route('index', null, true) }}/">
     <title>@yield('status') - {{ $title ?? 'Firefly III'  }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
-    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)"/>
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)"/>
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+    <meta name="theme-color" content="#161b22" media="(prefers-color-scheme: dark)"/>
     <meta name="color-scheme" content="light dark">
     @vite(['sass/app.scss'])
     <x-layout.fav-icons/>
@@ -29,17 +29,17 @@
     </script>
 </head>
 <body class="bg-body-tertiary">
-<main class="align-items-center min-vh-100 py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12 col-lg-8 col-xl-8">
-                <p class="text-center">
-                    <img src="images/logo-session.png" width="68" height="100" alt="Firefly III Logo" title="Firefly III"/><br>
-                </p>
-                <h1><strong>Firefly</strong> III - @yield('status_code') @yield('status')</h1>
-                <h2 class="text-danger">@yield('sub_title')</h2>
-                @yield('content')
-            </div>
+<main class="ff-status-page">
+    <div class="ff-status-card">
+        <a href="{{ route('index', null, true) }}" class="ff-auth-brand">
+            <img src="images/logo-session.png" width="40" height="40" alt="" aria-hidden="true"/>
+            <span>Firefly III</span>
+        </a>
+        <p class="ff-status-code">@yield('status_code')</p>
+        <h1>@yield('status')</h1>
+        <h2>@yield('sub_title')</h2>
+        <div class="ff-status-body">
+            @yield('content')
         </div>
     </div>
 </main>

@@ -19,37 +19,116 @@
  */
 
 @use "bootstrap-icons/font/bootstrap-icons.css";
-@use "@fontsource/roboto/400.css" as roboto400;
+@use "@fontsource-variable/inter/index.css" as inter;
 
+// Design "Propuesta A — Claro y limpio".
+// Every page uses this file, so these tokens restyle the whole application.
+// The matching component layer lives in _theme.scss.
 $color-mode-type: data;
 $link-decoration: none;
-$font-family-sans-serif: "Roboto", sans-serif;
-$font-size-base: 0.9rem;
+$font-family-sans-serif:
+    "Inter Variable",
+    "Inter",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+$font-size-base: 0.9375rem; // 15px
 
-// colors are for light mode.
-//$danger: #cd5029; // original
-//$danger: #993B1E; // slightly darker for WCAG on white bg
-$primary: #1e6581; // original
-//$primary: #1C5E78; // slightly darker for WCAG test on white bg
-//$success: #64b624; // original
-//$success: #356114; // darker for WCAG pass
-//$info: #065E6F;
-
-//$danger: #000;
-//$primary: #000;
-//$success: #000;
+// Light palette. All text colors pass WCAG AA on white and on #F6F7F9.
+$primary: #1e6581;
+$success: #15803d;
+$danger: #b42318;
+$warning: #b54708;
+$info: #0e7490;
 
 @use "admin-lte/src/scss/adminlte-colors";
 @use "admin-lte/src/scss/adminlte" with (
     $color-mode-type: $color-mode-type,
     $link-decoration: $link-decoration,
     $font-family-sans-serif: $font-family-sans-serif,
-    //$danger: $danger,
+    $font-size-base: $font-size-base,
     $primary: $primary,
-    //$success: $success,
-    $font-size-base: $font-size-base
+    $success: $success,
+    $danger: $danger,
+    $warning: $warning,
+    $info: $info,
+    $enable-shadows: false,
+
+    // surfaces and text
+    $body-bg: #ffffff,
+    $body-color: #0f172a,
+    $body-secondary-color: #5b6474,
+    $body-secondary-bg: #f2f4f7,
+    $body-tertiary-bg: #f6f7f9,
+    $border-color: #e4e7ec,
+    $link-color: $primary,
+    $link-hover-color: #134257,
+    $headings-font-weight: 650,
+
+    // dark mode surfaces and text
+    $body-bg-dark: #161b22,
+    $body-color-dark: #e6eaf0,
+    $body-secondary-color-dark: #9aa4b2,
+    $body-secondary-bg-dark: #1f2630,
+    $body-tertiary-bg-dark: #0f1419,
+    $border-color-dark: #262c36,
+    $link-color-dark: #6cb4d0,
+    $link-hover-color-dark: #9fd0e3,
+
+    // shape
+    $border-radius: 0.625rem,
+    $border-radius-sm: 0.5rem,
+    $border-radius-lg: 0.875rem,
+    $border-radius-xl: 1rem,
+
+    // cards
+    $card-border-radius: 0.875rem,
+    $card-cap-bg: transparent,
+    $card-spacer-y: 1.25rem,
+    $card-spacer-x: 1.25rem,
+    $card-cap-padding-y: 1rem,
+    $card-cap-padding-x: 1.25rem,
+
+    // forms and buttons
+    $input-padding-y: 0.5rem,
+    $input-padding-x: 0.875rem,
+    $input-border-color: #d0d5dd,
+    $input-focus-border-color: $primary,
+    $input-btn-focus-color: rgba(30, 101, 129, 0.25),
+    $btn-font-weight: 600,
+    $btn-padding-y: 0.5rem,
+    $btn-padding-x: 1rem,
+    $btn-padding-y-sm: 0.3125rem,
+    $btn-padding-x-sm: 0.75rem,
+
+    // tables
+    $table-cell-padding-y: 0.625rem,
+    $table-cell-padding-x: 0.625rem,
+    $table-cell-padding-y-sm: 0.5rem,
+    $table-cell-padding-x-sm: 0.5rem,
+    $table-th-font-weight: 600,
+
+    // small parts
+    $badge-font-weight: 500,
+    $badge-border-radius: 999px,
+    $progress-height: 0.5rem,
+    $progress-border-radius: 999px,
+    $dropdown-border-radius: 0.75rem,
+    $dropdown-padding-y: 0.375rem,
+    $dropdown-item-padding-y: 0.5rem,
+    $dropdown-item-padding-x: 1rem,
+    $modal-content-border-radius: 1rem,
+    $alert-border-radius: 0.75rem,
+
+    // AdminLTE layout
+    $lte-sidebar-width: 256px
 );
 @import "shepherd.js/dist/css/shepherd.css";
+@import "theme";
 
 // btn-outline-secondary
 html[data-bs-theme="dark"] .btn-outline-secondary {
@@ -70,35 +149,30 @@ table.sortable th[data-sort-column].sortable_sorted_desc:not(th.is-searching):be
     content: "\25BE ";
 }
 
-html[data-bs-theme="dark"] .btn-outline-success {
-    color: rgb(31 160 98) !important;
-    //color: red;
-}
-
 // for light mode, different money colors are used.
 html[data-bs-theme="light"] .money-negative {
-    color: #993b1e !important;
+    color: #b42318 !important;
 }
 
 html[data-bs-theme="light"] .money-positive {
-    color: #356114 !important;
+    color: #15803d !important;
 }
 
 html[data-bs-theme="light"] .money-transfer {
-    color: #065e6f !important;
+    color: #5b6474 !important;
 }
 
 // for dark mode, different money colors are used.
 html[data-bs-theme="dark"] .money-negative {
-    color: #e69f89 !important;
+    color: #f97066 !important;
 }
 
 html[data-bs-theme="dark"] .money-positive {
-    color: #6bc427 !important;
+    color: #4ade80 !important;
 }
 
 html[data-bs-theme="dark"] .money-transfer {
-    color: #0bc1e5 !important;
+    color: #9aa4b2 !important;
 }
 
 // move over the sub menu things.
@@ -135,17 +209,6 @@ html[data-bs-theme="dark"] .money-transfer {
     background-position: center center;
 }
 
-// hide search.
-body.sidebar-collapse .search-xl {
-    display: none;
-}
-
-body.sidebar-collapse .search-xs {
-    display: block !important;
-}
-
-// show search
-
 ul.nav:nth-child(1) > li:nth-child(2) .piggy-handle {
     cursor: move;
 }
@@ -170,7 +233,7 @@ body.waiting * {
 }
 
 .money-neutral {
-    color: #999;
+    color: var(--bs-secondary-color);
 }
 
 /* some borders and lines */

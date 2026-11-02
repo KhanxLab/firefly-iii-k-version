@@ -1,8 +1,8 @@
 <!-- begin create menu -->
-<li class="nav-item dropdown">
-    <a class="nav-link" id="create-menu" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-        <em class="bi bi-plus-circle"></em>
-    </a>
+{{-- Split part of the header "+ New transaction" button. --}}
+    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="create-menu" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{{ __('firefly.more_create_options') }}">
+        <span class="visually-hidden">{{ __('firefly.more_create_options') }}</span>
+    </button>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
 
 
@@ -153,5 +153,4 @@
             </div>
         </a>
     </div>
-</li>
 <!-- end create menu -->
