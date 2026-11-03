@@ -4,14 +4,14 @@
     {{-- upper show-all instruction --}}
     @if(count($periods) > 0)
         <div class="row">
-            <div class="offset-lg-10 col-lg-2 offset-md-9 col-md-3 col-sm-12 col-xs-12">
+            <div class="col-12 text-end col-sm-12 col-xs-12">
                 <p class="small text-center"><a href="{{ route('categories.no-category.all') }}">{{ __('firefly.showEverything') }}</a></p>
             </div>
         </div>
     @endif
 
     <div class="row">
-        <div class="@if(count($periods) > 0) col-lg-10 col-md-9 col-sm-12 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
+        <div class="@if(count($periods) > 0) col-12 col-sm-12 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
             <div class="card mb-2">
                 <div class="card-header">
                     <h3 class="card-title">{{ $subTitle }}</h3>
@@ -36,8 +36,8 @@
         </div>
 
         @if(count($periods) > 0)
-            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                <x-lists.periods :periods="$periods" />
+            <div class="col-12 order-first">
+                <div class="ff-periods"><x-lists.periods :periods="$periods" /></div>
             </div>
         @endif
 
@@ -46,7 +46,7 @@
     {{-- lower show-all instruction --}}
     @if(count($periods) > 0)
         <div class="row">
-            <div class="offset-lg-10 col-lg-2 offset-md-9 col-md-3 col-sm-12 col-xs-12">
+            <div class="col-12 text-end col-sm-12 col-xs-12">
                 <p class="small text-center"><a href="{{ route('categories.no-category',['all']) }}">{{ __('firefly.showEverything') }}</a></p>
             </div>
         </div>

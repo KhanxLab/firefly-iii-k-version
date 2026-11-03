@@ -32,23 +32,23 @@ class ChartColour
      * @var array
      */
     public static $colours = [
-        [53, 124, 165],
-        [0, 141, 76],
-        [219, 139, 11],
-        [202, 25, 90],
-        [85, 82, 153],
-        [66, 133, 244],
-        [219, 68, 55],
-        [244, 180, 0],
-        [15, 157, 88],
-        [171, 71, 188],
-        [0, 172, 193],
-        [255, 112, 67],
-        [158, 157, 36],
-        [92, 107, 192],
-        [240, 98, 146],
-        [0, 121, 107],
-        [194, 24, 91],
+        [30, 101, 129], // accent
+        [232, 163, 61], // amber
+        [15, 118, 110], // teal
+        [194, 65, 107], // rose
+        [79, 70, 229], // indigo
+        [21, 128, 61], // green
+        [194, 65, 12], // orange
+        [100, 116, 139], // slate
+        [14, 116, 144], // cyan
+        [126, 34, 206], // purple
+        [101, 163, 13], // lime
+        [180, 83, 9], // brown
+        [37, 99, 235], // blue
+        [219, 39, 119], // pink
+        [71, 85, 105], // dark slate
+        [5, 150, 105], // emerald
+        [161, 98, 7], // ochre
     ];
 
     public static function getColour(int $index): string
@@ -56,6 +56,6 @@ class ChartColour
         $index %= count(self::$colours);
         $row = self::$colours[$index];
 
-        return sprintf('rgba(%d, %d, %d, 0.7)', $row[0], $row[1], $row[2]);
+        return sprintf('rgba(%d, %d, %d, 0.85)', $row[0], $row[1], $row[2]);
     }
 }

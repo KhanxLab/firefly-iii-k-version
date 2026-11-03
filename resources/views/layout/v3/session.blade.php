@@ -53,8 +53,8 @@
 
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#161b22" media="(prefers-color-scheme: dark)">
     <!--end::Accessibility Meta Tags-->
 
     <!--begin::Accessibility Features-->
@@ -97,11 +97,18 @@
             <!--begin::Start Navbar Links-->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                    <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button" aria-label="{{ __('firefly.toggle_navigation') }}">
                         <i class="bi bi-list"></i>
                     </a>
                 </li>
             </ul>
+            <!--begin::Search-->
+            <form action="{{ route('search.index') }}" method="get" class="ff-header-search d-none d-md-flex ms-2" role="search">
+                <em class="bi bi-search" aria-hidden="true"></em>
+                <label class="visually-hidden" for="searchInput">{{ trans('firefly.searchPlaceholder') }}</label>
+                <input autocomplete="off" type="search" id="searchInput" name="search" class="form-control" placeholder="{{ trans('firefly.searchPlaceholder') }}" value="{{ $query ?? '' }}" spellcheck="false">
+            </form>
+            <!--end::Search-->
             <!--begin::End Navbar Links-->
             <ul class="navbar-nav ms-auto">
                 @if($FF_IS_DEVELOP)
@@ -206,8 +213,18 @@
                     </ul>
                 </li>
                 <!--end::Color Mode Toggle-->
-                <x-layout.create-menu/>
                 <x-layout.user-menu/>
+                <!--begin::Primary action-->
+                <li class="nav-item ms-1 d-flex align-items-center">
+                    <div class="btn-group">
+                        <a href="{{ route('transactions.create', ['withdrawal']) }}?_from={{ urlencode($FF3_FROM) }}" class="btn btn-primary ff-header-cta">
+                            <em class="bi bi-plus-lg" aria-hidden="true"></em>
+                            <span class="d-none d-sm-inline">{{ __('firefly.new_transaction') }}</span>
+                        </a>
+                        <x-layout.create-menu/>
+                    </div>
+                </li>
+                <!--end::Primary action-->
 
                 <!--end::User Menu Dropdown-->
             </ul>
@@ -217,7 +234,7 @@
     </nav>
     <!--end::Header-->
     <!--begin::Sidebar-->
-    <aside class="app-sidebar bg-body-secondary shadow">
+    <aside class="app-sidebar">
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
             <!--begin::Brand Link-->
@@ -226,11 +243,11 @@
                 <img
                     src="./images/logo-session.png"
                     alt="Firefly III"
-                    class="brand-image opacity-75"
+                    class="brand-image"
                 >
                 <!--end::Brand Image-->
                 <!--begin::Brand Text-->
-                <span class="brand-text fw-light">Firefly III</span>
+                <span class="brand-text">Firefly III</span>
                 <!--end::Brand Text-->
             </a>
             <!--end::Brand Link-->

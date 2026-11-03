@@ -5,75 +5,44 @@
     <x-dashboard.boxes :start="$start" :end="$end"/>
 
     <div class="row" x-data="index">
-        <div class="col-lg-8 col-md-12 col-sm-12">
-            <!--ACCOUNTS -->
-            <div class="card mb-2 card-outline">
+        {{-- Balance chart + accounts with their latest transactions --}}
+        <div class="col-xl-8 col-lg-12">
+            <div class="card card-outline">
                 <div class="card-header">
-                    <div class="card-title"><a href="{{ route('accounts.index',['asset']) }}"
-                                               title="{{ __('firefly.yourAccounts') }}">{{ __('firefly.yourAccounts') }}</a>
-                    </div>
+                    <h2 class="card-title">{{ __('firefly.yourAccounts') }}</h2>
+                    <a class="ff-card-link d-print-none" href="{{ route('accounts.index',['asset']) }}">{{ __('firefly.go_to_asset_accounts') }}</a>
                 </div>
                 <div class="card-body">
-                    <div>
-                        <canvas id="accounts-chart" class="wide-chart" height="400" width="100%"></canvas>
-                    </div>
-                </div>
-                <div class="d-print-none card-footer text-end">
-                    <a href="{{ route('accounts.index',['asset']) }}" class="btn btn-primary btn-sm"><span
-                            class="bi bi-cash"></span> {{ __('firefly.go_to_asset_accounts') }}</a>
+                    <canvas id="accounts-chart" class="wide-chart" height="400" width="100%"></canvas>
                 </div>
             </div>
 
-            <!--BUDGETS -->
-            <div class="card mb-2 card-outline">
-                <div class="card-header ">
-                    <div class="card-title"><a href="{{ route('budgets.index') }}"
-                                               title="{{ __('firefly.budgetsAndSpending') }}">{{ __('firefly.budgetsAndSpending') }}</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div>
-                        <canvas id="budgets-chart" class="wide-chart" height="400" width="100%"></canvas>
-                    </div>
-                    <!--
-                    <div>
-                        <canvas id="budgets-two-chart" class="wide-chart" height="400" width="100%"></canvas>
-                    </div>
-                    -->
-                </div>
-                <div class="card-footer text-end d-print-none">
-                    <a href="{{ route('budgets.index') }}" class="btn btn-primary btn-sm">
-                        <span class="bi bi-pie-chart"></span>
-                        <span>{{ __('firefly.go_to_budgets') }}</span>
-                    </a>
-                </div>
-            </div>
-            <!--CATEGORIES -->
-            <div class="card mb-2 card-outline">
+            <div class="card card-outline">
                 <div class="card-header">
-                    <div class="card-title"><a href="{{ route('categories.index') }}"
-                                               title="{{ __('firefly.categories') }}">{{ __('firefly.categories') }}</a>
-                    </div>
-
+                    <h2 class="card-title">{{ __('firefly.budgetsAndSpending') }}</h2>
+                    <a class="ff-card-link d-print-none" href="{{ route('budgets.index') }}">{{ __('firefly.go_to_budgets') }}</a>
                 </div>
                 <div class="card-body">
-                    <canvas id="categories-chart" class="wide-chart" height="400" width="100%"></canvas>
-                </div>
-                <div class="card-footer text-end d-print-none">
-                    <a href="{{ route('categories.index') }}" class="btn btn-primary btn-sm">
-                        <span class="bi bi-bookmark"></span>
-                        <span>{{ __('firefly.go_to_categories') }}</span>
-                    </a>
+                    <canvas id="budgets-chart" class="wide-chart" height="400" width="100%"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12 col-sm-12" id="all_transactions">
-            <!--TRANSACTIONS -->
+
+        <div class="col-xl-4 col-lg-12" id="all_transactions">
             @foreach($transactions as $data)
-                <div class="card card-outline mb-2">
+                <div class="card card-outline ff-mini-account">
                     <div class="card-header">
-                        <div class="card-title"><a
-                                href="{{ route('accounts.show', [$data['account']->id]) }}">{{ $data['account']->name }}</a>
+                        <h2 class="card-title"><a href="{{ route('accounts.show', [$data['account']->id]) }}">{{ $data['account']->name }}</a></h2>
+                        <div class="ms-auto d-print-none">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ account_balance($data['account']) }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ route('accounts.show', [$data['account']['id']]) }}">{{ __('firefly.show') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('accounts.reconcile', [$data['account']['id']]) }}">{{ __('firefly.reconcile') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('accounts.edit', [$data['account']['id']]) }}?_from={{ urlencode($FF3_FROM) }}">{{ __('firefly.edit') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('accounts.delete', [$data['account']['id']]) }}">{{ __('firefly.delete') }}</a></li>
+                            </ul>
                         </div>
                     </div>
                     @if(count($data['transactions']) > 0)
@@ -83,91 +52,41 @@
                     @endif
                     @if(0 === count($data['transactions']))
                         <div class="card-body">
-                            <p>
-                                <em>
-                                    {{ __('firefly.no_transactions_account', ['name' => $data['account']['name']]) }}
-                                </em>
-                            </p>
-
+                            <p class="text-muted mb-0">{{ __('firefly.no_transactions_account', ['name' => $data['account']['name']]) }}</p>
                         </div>
                     @endif
                     <div class="card-footer d-print-none">
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false">{{ __('firefly.sidebar_frontpage_create') }}</button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route('transactions.create', ['withdrawal']) }}?source={{ $data['account']['id'] }}">{{ __('firefly.create_new_withdrawal') }}</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route('transactions.create', ['deposit']) }}?destination={{ $data['account']['id'] }}">{{ __('firefly.create_new_deposit') }}</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route('transactions.create', ['transfer']) }}?source={{ $data['account']['id'] }}">{{ __('firefly.create_new_transfer') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-6 text-end">
-                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ account_balance($data['account']) }}
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route('accounts.show', [$data['account']['id']]) }}">{{ __('firefly.show') }}</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route('accounts.reconcile', [$data['account']['id']]) }}">{{ __('firefly.reconcile') }}</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route('accounts.edit', [$data['account']['id']]) }}?_from={{ urlencode($FF3_FROM) }}">{{ __('firefly.edit') }}</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route('accounts.delete', [$data['account']['id']]) }}">{{ __('firefly.delete') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <em class="bi bi-plus-lg" aria-hidden="true"></em>{{ __('firefly.sidebar_frontpage_create') }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('transactions.create', ['withdrawal']) }}?source={{ $data['account']['id'] }}">{{ __('firefly.create_new_withdrawal') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('transactions.create', ['deposit']) }}?destination={{ $data['account']['id'] }}">{{ __('firefly.create_new_deposit') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('transactions.create', ['transfer']) }}?source={{ $data['account']['id'] }}">{{ __('firefly.create_new_transfer') }}</a></li>
+                        </ul>
                     </div>
                 </div>
             @endforeach
 
             @if($billCount > 0)
-                <!--BILLS -->
-                <div class="card mb-2">
+                <div class="card">
                     <div class="card-header">
-                        <div class="card-title"><a href="{{ route('subscriptions.index') }}"
-                                                   title="{{ __('firefly.bills') }}">{{ __('firefly.bills') }}</a></div>
-
+                        <h2 class="card-title">{{ __('firefly.bills') }}</h2>
+                        <a class="ff-card-link d-print-none" href="{{ route('subscriptions.index') }}">{{ __('firefly.go_to_bills') }}</a>
                     </div>
                     <div class="card-body">
                         <div class="center-chart">
                             <canvas id="bills-chart" class="low-chart" height="200"></canvas>
                         </div>
                     </div>
-                    <div class="card-footer text-end d-print-none">
-                        <a href="{{ route('bills.index') }}" class="btn  btn-primary btn-sm"><span
-                                class="bi bi-calendar"></span> {{ __('firefly.go_to_bills') }}</a>
-                    </div>
                 </div>
             @endif
 
-            <!--box for piggy bank data (JSON) -->
             <div id="piggy_bank_overview">
-                <div class="card mb-4">
+                <div class="card">
                     <div class="card-header">
-                        <div class="card-title"><a href="{{ route('piggy-banks.index') }}"
-                                                   title="{{ __('firefly.go_to_piggies') }}">{{ __('firefly.piggyBanks') }}</a>
-                        </div>
+                        <h2 class="card-title">{{ __('firefly.piggyBanks') }}</h2>
+                        <a class="ff-card-link d-print-none" href="{{ route('piggy-banks.index') }}">{{ __('firefly.go_to_piggies') }}</a>
                     </div>
                     <div class="card-body">
                         <template x-if="loadingPiggyBanks">
@@ -178,71 +97,57 @@
                             </div>
                         </template>
                         <template x-if="!loadingPiggyBanks && piggyBanks.length === 0">
-                            <p><em>{{ __('firefly.no_piggies_intro_default') }}</em></p>
+                            <p class="text-muted mb-0">{{ __('firefly.no_piggies_intro_default') }}</p>
                         </template>
                         <template x-for="piggyBank in piggyBanks" :key="piggyBank.id">
-                            <div>
-                                <a :href="'./piggy-banks/show/' + piggyBank.id" :title="piggyBank.name"><strong
-                                        x-text="piggyBank.name"></strong></a><br>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped" role="progressbar"
-                                         :class="'w-'+piggyBank.percentage" :aria-valuenow="piggyBank.percentage"
-                                         aria-valuemin="0" aria-valuemax="100">
-                                        <template x-if="piggyBank.percentage > 50">
-                                            <span x-text="piggyBank.amount"></span>
-                                        </template>
-                                    </div>
-                                    <template x-if="piggyBank.percentage <= 50">
-                                        <span>&nbsp;
-                                            <span class="ml-1" x-text="piggyBank.amount"></span>
-                                        </span>
-                                    </template>
+                            <div class="ff-piggy">
+                                <div class="ff-piggy-row">
+                                    <a :href="'./piggy-banks/show/' + piggyBank.id" x-text="piggyBank.name"></a>
+                                    <span x-text="piggyBank.amount"></span>
+                                </div>
+                                <div class="progress" role="progressbar" :aria-valuenow="piggyBank.percentage" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" :class="'w-'+piggyBank.percentage"></div>
                                 </div>
                             </div>
                         </template>
-                    </div>
-                    <div class="card-footer text-end d-print-none">
-                        <a href="{{ route('piggy-banks.index') }}" title="{{ __('firefly.go_to_piggies') }}"
-                           class="btn btn-primary btn-sm"><span
-                                class="bi bi-bullseye"></span> {{ __('firefly.go_to_piggies') }}</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {{-- Where the money went and came from --}}
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <!--EXPENSE ACCOUNTS -->
-            <div class="card mb-2">
+        <div class="col-xl-4 col-lg-6 col-md-12">
+            <div class="card">
                 <div class="card-header">
-                    <div class="card-title"><a href="{{ route('accounts.index',['expense']) }}"
-                                               title="{{ __('firefly.expense_accounts') }}">{{ __('firefly.expense_accounts') }}</a>
-                    </div>
+                    <h2 class="card-title">{{ __('firefly.categories') }}</h2>
+                    <a class="ff-card-link d-print-none" href="{{ route('categories.index') }}">{{ __('firefly.go_to_categories') }}</a>
                 </div>
                 <div class="card-body">
-                    <canvas id="expense-accounts-chart" class="wide-chart" height="400"
-                            width="100%"></canvas>
-                </div>
-                <div class="card-footer text-end d-print-none">
-                    <a href="{{ route('accounts.index', ['expense']) }}" class="btn btn-primary btn-sm"><span
-                            class="bi bi-cart"></span> {{ __('firefly.go_to_expense_accounts') }}</a>
+                    <canvas id="categories-chart" class="medium-chart" height="250" width="100%"></canvas>
                 </div>
             </div>
-            <!--OPTIONAL REVENUE ACCOUNTS -->
-            <div class="card mb-2">
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-12">
+            <div class="card">
                 <div class="card-header">
-                    <div class="card-title"><a href="{{ route('accounts.index',['revenue']) }}"
-                                               title="{{ __('firefly.revenue_accounts') }}">{{ __('firefly.revenue_accounts') }}</a>
-                    </div>
-
+                    <h2 class="card-title">{{ __('firefly.expense_accounts') }}</h2>
+                    <a class="ff-card-link d-print-none" href="{{ route('accounts.index', ['expense']) }}">{{ __('firefly.go_to_expense_accounts') }}</a>
                 </div>
                 <div class="card-body">
-                    <canvas id="revenue-accounts-chart" class="wide-chart" height="400"
-                            width="100%"></canvas>
+                    <canvas id="expense-accounts-chart" class="medium-chart" height="250" width="100%"></canvas>
                 </div>
-                <div class="card-footer text-end d-print-none">
-                    <a href="{{ route('accounts.index', ['revenue']) }}" class="btn btn-primary btn-sm"><span
-                            class="bi bi-box-arrow-down"></span> {{ __('firefly.go_to_revenue_accounts') }}</a>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">{{ __('firefly.revenue_accounts') }}</h2>
+                    <a class="ff-card-link d-print-none" href="{{ route('accounts.index', ['revenue']) }}">{{ __('firefly.go_to_revenue_accounts') }}</a>
+                </div>
+                <div class="card-body">
+                    <canvas id="revenue-accounts-chart" class="medium-chart" height="250" width="100%"></canvas>
                 </div>
             </div>
         </div>
@@ -253,11 +158,11 @@
     @vite(['js/pages/dashboard/dashboard.js'])
 
      <script nonce="{{ $JS_NONCE }}">
-        var lineColor = 'red';
-        var lineTextColor = '#000';
+        var lineColor = '#b54708';
+        var lineTextColor = '#0f172a';
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            lineColor = '#a00';
-            lineTextColor = '#bec5cb';
+            lineColor = '#e8a33d';
+            lineTextColor = '#e6eaf0';
         }
         var billCount = {{ $billCount }};
         var accountRevenueUrl = '{{ route('chart.account.revenue') }}';

@@ -24,23 +24,23 @@ var allCharts = {};
  Make some colours:
  */
 var colourSet = [
-    [53, 124, 165],
-    [0, 141, 76], // green
-    [219, 139, 11],
-    [202, 25, 90], // paars rood-ish #CA195A
-    [85, 82, 153],
-    [66, 133, 244],
-    [219, 68, 55], // red #DB4437
-    [244, 180, 0],
-    [15, 157, 88],
-    [171, 71, 188],
-    [0, 172, 193],
-    [255, 112, 67],
-    [158, 157, 36],
-    [92, 107, 192],
-    [240, 98, 146],
-    [0, 121, 107],
-    [194, 24, 91]
+    [30, 101, 129], // accent #1E6581
+    [232, 163, 61], // amber #E8A33D
+    [15, 118, 110], // teal #0F766E
+    [194, 65, 107], // rose #C2416B
+    [79, 70, 229], // indigo #4F46E5
+    [21, 128, 61], // green #15803D
+    [194, 65, 12], // orange #C2410C
+    [100, 116, 139], // slate #64748B
+    [14, 116, 144], // cyan #0E7490
+    [126, 34, 206], // purple #7E22CE
+    [101, 163, 13], // lime #65A30D
+    [180, 83, 9], // brown #B45309
+    [37, 99, 235], // blue #2563EB
+    [219, 39, 119], // pink #DB2777
+    [71, 85, 105], // dark slate #475569
+    [5, 150, 105], // emerald #059669
+    [161, 98, 7] // ochre #A16207
 ];
 
 var fillColors = [];
@@ -53,6 +53,20 @@ Chart.defaults.global.legend.display = false;
 Chart.defaults.global.animation.duration = 0;
 Chart.defaults.global.responsive = true;
 Chart.defaults.global.maintainAspectRatio = false;
+
+// Typography and grid colors that match the application theme.
+(function () {
+    "use strict";
+    var dark = 'dark' === document.documentElement.getAttribute('data-bs-theme');
+    Chart.defaults.global.defaultFontFamily = '"Inter Variable", Inter, system-ui, sans-serif';
+    Chart.defaults.global.defaultFontColor = dark ? '#9aa4b2' : '#5b6474';
+    Chart.defaults.scale.gridLines.color = dark ? 'rgba(255, 255, 255, 0.06)' : '#eef0f3';
+    Chart.defaults.scale.gridLines.zeroLineColor = dark ? 'rgba(255, 255, 255, 0.12)' : '#e4e7ec';
+    Chart.defaults.global.elements.rectangle.borderWidth = 0;
+    Chart.defaults.global.elements.line.borderWidth = 2;
+    Chart.defaults.global.elements.point.radius = 0;
+    Chart.defaults.global.elements.point.hoverRadius = 4;
+})();
 
 /**
  *
